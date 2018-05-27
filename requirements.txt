@@ -1,0 +1,2 @@
+boto3==1.7.28
+git+https://github.com/HDI-Project/MLBlocks.git@experiments
