@@ -43,21 +43,23 @@ def parse_kwargs(kwargs_list):
 
 
 
-def store_results(output, example, kwargs, extra_kwargs, score, exception):
-    now = datetime.utcnow()
+def store_results(output, example, kwargs, extra_kwargs, score, exception, start):
+    end = datetime.utcnow()
+    elapsed = end - start
     example_name = example.replace('/', '.')
     if example.endswith('.py'):
         example_name = example_name[:-3]
 
-    filename = '{}_{}.json'.format(now.strftime('%Y%m%d%H%M%S'), example_name)
+    filename = '{}_{}.json'.format(end.strftime('%Y%m%d%H%M%S'), example_name)
 
     results = {
         'example': example,
         'extra_kwargs': extra_kwargs,
         'kwargs': kwargs,
-        'datetime': now.isoformat(),
+        'datetime': end.isoformat(),
         'score': score,
-        'exception': str(exception)
+        'exception': str(exception),
+        'elapsed': str(elapsed)
     }
 
     filepath = os.path.join(args.output, filename)
@@ -111,6 +113,7 @@ if __name__ == '__main__':
             os.makedirs(args.output)
 
     for i in range(args.times):
+        start = datetime.utcnow()
         try:
             score = example.run(**kwargs)
             exception = None
@@ -119,4 +122,6 @@ if __name__ == '__main__':
             exception = e
 
         if args.output:
-            store_results(args.output, args.example, kwargs, extra_kwargs, score, exception)
+            store_results(
+                args.output, args.example, kwargs, extra_kwargs,
+                score, exception, start)
