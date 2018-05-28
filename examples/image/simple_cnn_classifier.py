@@ -12,17 +12,15 @@ from sklearn.model_selection import train_test_split
 from mlblocks.components.pipelines.image.simple_cnn import SimpleCnnClassifier
 
 
-def run():
+def run(train_size=1000, test_size=300, epochs=1):
 
-    print("""
-    ============================================
-    Testing Simple CNN
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Simple CNN")
+    print("============================================")
 
     mnist = fetch_mldata('MNIST original')
     X, X_test, y, y_test = train_test_split(
-        mnist.data, mnist.target, train_size=10, test_size=3)
+        mnist.data, mnist.target, train_size=train_size, test_size=test_size)
 
     # 10 classes for digits.
     simple_cnn = SimpleCnnClassifier(num_classes=10)
@@ -49,8 +47,8 @@ def run():
 
     # Check that we can score properly.
     print("\nFitting pipeline...")
-    fit_params = {('simple_cnn', 'epochs'): 12}
-    simple_cnn.fit(prep_x, cat_y)
+    fit_params = {('simple_cnn', 'epochs'): epochs}
+    simple_cnn.fit(prep_x, cat_y, fit_params=fit_params)
     print("\nFit pipeline.")
 
     print("\nScoring pipeline...")

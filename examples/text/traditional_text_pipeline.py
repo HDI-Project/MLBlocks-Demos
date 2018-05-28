@@ -23,7 +23,6 @@ def run():
         train_size=9051,
         test_size=2263)
 
-    import ipdb; ipdb.set_trace()
     traditional_text = TraditionalTextPipeline()
 
     # Check that the hyperparameters are correct.

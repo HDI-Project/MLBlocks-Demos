@@ -53,19 +53,17 @@ def make_entity_set(orders_table, order_products_table):
 
 def run():
 
-    print("""
-    ============================================
-    Testing Multi Table Pipeline
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Multi Table Pipeline")
+    print("============================================")
 
     orders = pd.read_csv("data/Retail/orders.csv")
     order_products = pd.read_csv("data/Retail/order_products.csv")
     label_times = pd.read_csv("data/Retail/label_times.csv")
 
-    X = label_times.sample(frac=0.8)
-    X_test = label_times.drop(X.index)
-    y = X["label"]
+    X_train = label_times.sample(frac=0.8)
+    X_test = label_times.drop(X_train.index)
+    y_train = X_train["label"]
     y_test = X_test["label"]
 
     entity_set = make_entity_set(orders, order_products)

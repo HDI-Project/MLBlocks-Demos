@@ -64,11 +64,9 @@ def load_and_segment(paths):
 
 def run():
 
-    print("""
-    ============================================
-    Testing Audio Pipeline
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Audio Pipeline")
+    print("============================================")
 
     # Data loading.
     classes = [

@@ -12,11 +12,9 @@ from mlblocks.components.pipelines.tabular.random_forest import RandomForestClas
 
 def run():
 
-    print("""
-    ============================================
-    Testing Random Forest Classifier
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Random Forest Classifier")
+    print("============================================")
 
     wine = load_wine()
     X, X_test, y, y_test = train_test_split(

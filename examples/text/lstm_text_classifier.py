@@ -13,11 +13,9 @@ from mlblocks.components.pipelines.text.lstm_text import LstmTextClassifier
 
 def run():
 
-    print("""
-    ============================================
-    Testing Text LSTM
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Text LSTM")
+    print("============================================")
 
     newsgroups = fetch_20newsgroups()
     X, X_test, y, y_test = train_test_split(

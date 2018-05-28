@@ -13,11 +13,9 @@ from mlblocks.components.pipelines.tabular.random_forest import RandomForestRegr
 
 def run():
 
-    print("""
-    ============================================
-    Testing Random Forest Regressor
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Random Forest Regressor")
+    print("============================================")
 
     housing = load_boston()
     X, X_test, y, y_test = train_test_split(

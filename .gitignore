@@ -111,4 +111,5 @@ ENV/
 *.swp
 
 # Data
-UrbanSound/
+data/
+test_results/

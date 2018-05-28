@@ -10,17 +10,15 @@ from sklearn.model_selection import train_test_split
 from mlblocks.components.pipelines.image.traditional_image import TraditionalImagePipeline
 
 
-def run():
+def run(train_size=1000, test_size=300):
 
-    print("""
-    ============================================
-    Testing Traditional Image Pipeline
-    ============================================
-    """)
+    print("============================================")
+    print("Testing Traditional Image Pipeline")
+    print("============================================")
 
     mnist = fetch_mldata('MNIST original')
     X, X_test, y, y_test = train_test_split(
-        mnist.data, mnist.target, train_size=1000, test_size=300)
+        mnist.data, mnist.target, train_size=train_size, test_size=test_size)
 
     traditional_image = TraditionalImagePipeline()
 
