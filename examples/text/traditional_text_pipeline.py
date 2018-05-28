@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from mlblocks.components.pipelines.text.traditional_text import TraditionalTextPipeline
 
 
-def run():
+def run(train_size=9051, test_size=2263):
 
     print("============================================")
     print("Testing Traditional Text Pipeline")
@@ -20,8 +20,8 @@ def run():
     X, X_test, y, y_test = train_test_split(
         newsgroups.data,
         newsgroups.target,
-        train_size=9051,
-        test_size=2263)
+        train_size=train_size,
+        test_size=test_size)
 
     traditional_text = TraditionalTextPipeline()
 

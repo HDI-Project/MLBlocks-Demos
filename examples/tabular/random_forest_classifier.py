@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from mlblocks.components.pipelines.tabular.random_forest import RandomForestClassifier
 
 
-def run():
+def run(train_size=142, test_size=36):
 
     print("============================================")
     print("Testing Random Forest Classifier")
@@ -18,7 +18,7 @@ def run():
 
     wine = load_wine()
     X, X_test, y, y_test = train_test_split(
-        wine.data, wine.target, train_size=142, test_size=36)
+        wine.data, wine.target, train_size=train_size, test_size=test_size)
 
     rf_classifier = RandomForestClassifier()
 

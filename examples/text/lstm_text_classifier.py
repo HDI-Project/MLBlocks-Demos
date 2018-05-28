@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from mlblocks.components.pipelines.text.lstm_text import LstmTextClassifier
 
 
-def run():
+def run(train_size=90, test_size=22, epochs=1, num_classes=20, pad_length=1000):
 
     print("============================================")
     print("Testing Text LSTM")
@@ -21,10 +21,10 @@ def run():
     X, X_test, y, y_test = train_test_split(
         newsgroups.data,
         newsgroups.target,
-        train_size=90,
-        test_size=22)
+        train_size=train_size,
+        test_size=test_size)
 
-    lstm_text = LstmTextClassifier(num_classes=20, pad_length=1500)
+    lstm_text = LstmTextClassifier(num_classes=num_classes, pad_length=pad_length)
 
     # Check that the hyperparameters are correct.
     for hyperparam in lstm_text.get_fixed_hyperparams():
@@ -45,8 +45,8 @@ def run():
 
     # Check that we can score properly.
     print("\nFitting pipeline...")
-    # fit_params = {('lstm_text', 'epochs'): 3}
-    lstm_text.fit(X, y_cat)
+    fit_params = {('lstm_text', 'epochs'): epochs}
+    lstm_text.fit(X, y_cat, fit_params=fit_params)
     print("\nFit pipeline.")
 
     print("\nScoring pipeline...")

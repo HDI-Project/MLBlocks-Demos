@@ -42,14 +42,38 @@ def parse_kwargs(kwargs_list):
     return kwargs
 
 
+
+def store_results(output, example, kwargs, extra_kwargs, score, exception):
+    now = datetime.utcnow()
+    example_name = example.replace('/', '.')
+    if example.endswith('.py'):
+        example_name = example_name[:-3]
+
+    filename = '{}_{}.json'.format(now.strftime('%Y%m%d%H%M%S'), example_name)
+
+    results = {
+        'example': example,
+        'extra_kwargs': extra_kwargs,
+        'kwargs': kwargs,
+        'datetime': now.isoformat(),
+        'score': score,
+        'exception': str(exception)
+    }
+
+    filepath = os.path.join(args.output, filename)
+    print("Storing results in {}".format(filepath))
+    with open(filepath, 'w') as f:
+        json.dump(results, f, indent=4)
+
+
 EXAMPLES = {
     'audio': {'train_size': 740, 'test_size': 185},
     'simple_cnn_classifier': {'train_size': 56000, 'test_size': 14000, 'epochs': 12},
     'traditional_image_pipeline': {'train_size': 56000, 'test_size': 14000},
     'multitable': {},
-    'random_forest_classifier': {},
-    'random_forest_regressor': {},
-    'lstm_text_classifier': {'train_size': 9051, 'test_size': 2263},
+    'random_forest_classifier': {'train_size': None, 'test_size': 0.3},
+    'random_forest_regressor': {'train_size': None, 'test_size': 0.3},
+    'lstm_text_classifier': {'train_size': 9051, 'test_size': 2263, 'epochs': 1},
     'traditional_text_pipeline': {'train_size': 9051, 'test_size': 2263},
 }
 
@@ -59,6 +83,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run MLBlocks pipelines.')
 
     parser.add_argument('--output', '-o', help="Path were results will be stored")
+    parser.add_argument('--times', '-t', type=int, default=1,
+                        help="Number of times to run the example")
     parser.add_argument('example', help="Available examples: {}".format(list(EXAMPLES.keys())))
 
     try:
@@ -75,31 +101,22 @@ if __name__ == '__main__':
         kwargs = EXAMPLES[example]
         kwargs.update(extra_kwargs)
         example = locals()[example]
+
     elif example:
         example = import_module(example)
         kwargs = extra_kwargs
-
-    score = example.run(**kwargs)
 
     if args.output:
         if not os.path.exists(args.output):
             os.makedirs(args.output)
 
-        now = datetime.utcnow()
-        example_name = args.example.replace('/', '.')
-        if args.example.endswith('.py'):
-            example_name = example_name[:-3]
-        filename = '{}_{}.json'.format(now.strftime('%Y%m%d%H%M%S'), example_name)
+    for i in range(args.times):
+        try:
+            score = example.run(**kwargs)
+            exception = None
+        except Exception as e:
+            score = None
+            exception = e
 
-        results = {
-            'example': args.example,
-            'extra_kwargs': extra_kwargs,
-            'kwargs': kwargs,
-            'datetime': now.isoformat(),
-            'score': score
-        }
-
-        filepath = os.path.join(args.output, filename)
-        print("Storing results in {}".format(filepath))
-        with open(filepath, 'w') as f:
-            json.dump(results, f, indent=4)
+        if args.output:
+            store_results(args.output, args.example, kwargs, extra_kwargs, score, exception)

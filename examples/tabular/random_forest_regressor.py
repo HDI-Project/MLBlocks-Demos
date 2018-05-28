@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from mlblocks.components.pipelines.tabular.random_forest import RandomForestRegressor
 
 
-def run():
+def run(train_size=405, test_size=101):
 
     print("============================================")
     print("Testing Random Forest Regressor")
@@ -19,7 +19,7 @@ def run():
 
     housing = load_boston()
     X, X_test, y, y_test = train_test_split(
-        housing.data, housing.target, train_size=405, test_size=101)
+        housing.data, housing.target, train_size=train_size, test_size=test_size)
 
     rf_regressor = RandomForestRegressor()
 

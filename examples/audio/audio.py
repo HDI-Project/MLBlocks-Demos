@@ -62,7 +62,7 @@ def load_and_segment(paths):
     return segment_vector, sample_freqs
 
 
-def run():
+def run(train_size=160, test_size=40):
 
     print("============================================")
     print("Testing Audio Pipeline")
@@ -82,7 +82,7 @@ def run():
             labels.append(label_class)
 
     filepaths, filepaths_test, y, y_test = train_test_split(
-        all_filepaths, labels, train_size=160, test_size=40)
+        all_filepaths, labels, train_size=train_size, test_size=test_size)
 
     audio_pipeline = MLPipeline.from_ml_json([
         'audio_featurizer', 'audio_padder', 'pca', 'random_forest_classifier'])
