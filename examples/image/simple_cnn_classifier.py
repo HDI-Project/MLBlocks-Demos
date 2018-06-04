@@ -9,7 +9,7 @@ from sklearn.datasets import fetch_mldata
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-from mlblocks.components.pipelines.image.simple_cnn import SimpleCnnClassifier
+from mlpipelines.image.simple_cnn import SimpleCnnClassifier
 
 
 def run(train_size=1000, test_size=300, epochs=1):
@@ -33,10 +33,10 @@ def run(train_size=1000, test_size=300, epochs=1):
     for hyperparam in simple_cnn.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {'simple_cnn', 'convert_class_probs'}
-    steps = set(simple_cnn.steps_dict.keys())
-    assert expected_steps == steps
+    # Check that the blocks are correct.
+    expected_blocks = {'simple_cnn', 'convert_class_probs'}
+    blocks = set(simple_cnn.blocks.keys())
+    assert expected_blocks == blocks
 
     # Properly format data.
     prep_x = np.array([np.resize(im, (224, 224, 3))

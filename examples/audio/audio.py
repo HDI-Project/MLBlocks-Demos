@@ -6,11 +6,12 @@ import glob
 import os
 import subprocess
 import tempfile
+
+from scipy.io.wavfile import read
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
-from scipy.io.wavfile import read
 
-from mlblocks.ml_pipeline.ml_pipeline import MLPipeline
+from mlblocks.mlpipeline import MLPipeline
 
 
 def segment(f, window_size = 2000, percent_overlap = 0.1):
@@ -84,17 +85,17 @@ def run(train_size=160, test_size=40):
     filepaths, filepaths_test, y, y_test = train_test_split(
         all_filepaths, labels, train_size=train_size, test_size=test_size)
 
-    audio_pipeline = MLPipeline.from_ml_json([
+    audio_pipeline = MLPipeline([
         'audio_featurizer', 'audio_padder', 'pca', 'random_forest_classifier'])
 
     # Check that the hyperparameters are correct.
     for hyperparam in audio_pipeline.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {'audio_featurizer', 'audio_padder', 'pca', 'rf_classifier'}
-    steps = set(audio_pipeline.steps_dict.keys())
-    assert expected_steps == steps
+    # Check that the blocks are correct.
+    expected_blocks = {'audio_featurizer', 'audio_padder', 'pca', 'rf_classifier'}
+    blocks = set(audio_pipeline.blocks.keys())
+    assert expected_blocks == blocks
 
     # Check that we can score properly.
     print("\nFitting pipeline...")

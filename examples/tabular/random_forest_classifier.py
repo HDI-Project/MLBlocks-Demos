@@ -7,7 +7,7 @@ from sklearn.datasets import load_wine
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-from mlblocks.components.pipelines.tabular.random_forest import RandomForestClassifier
+from mlpipelines.tabular.random_forest import RandomForestClassifier
 
 
 def run(train_size=142, test_size=36):
@@ -26,10 +26,10 @@ def run(train_size=142, test_size=36):
     for hyperparam in rf_classifier.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {'rf_classifier'}
-    steps = set(rf_classifier.steps_dict.keys())
-    assert expected_steps == steps
+    # Check that the blocks are correct.
+    expected_blocks = {'rf_classifier'}
+    blocks = set(rf_classifier.blocks.keys())
+    assert expected_blocks == blocks
 
     # Check that we can score properly.
     print("\nFitting pipeline...")
