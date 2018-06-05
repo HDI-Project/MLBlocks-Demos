@@ -8,7 +8,7 @@ from sklearn.datasets import fetch_20newsgroups
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-from mlblocks.components.pipelines.text.lstm_text import LstmTextClassifier
+from mlpipelines.text.lstm_text import LstmTextClassifier
 
 
 def run(train_size=90, test_size=22, epochs=1, num_classes=20, pad_length=1000):
@@ -34,12 +34,12 @@ def run(train_size=90, test_size=22, epochs=1, num_classes=20, pad_length=1000):
     for hyperparam in lstm_text.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {
+    # Check that the blocks are correct.
+    expected_blocks = {
         'tokenizer', 'sequence_padder', 'lstm_text', 'convert_class_probs'
     }
-    steps = set(lstm_text.steps_dict.keys())
-    assert expected_steps == steps
+    blocks = set(lstm_text.blocks.keys())
+    assert expected_blocks == blocks
 
     y_cat = keras.utils.np_utils.to_categorical(y)
 

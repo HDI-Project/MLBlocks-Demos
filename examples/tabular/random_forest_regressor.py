@@ -8,7 +8,7 @@ from sklearn.datasets import load_boston
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 
-from mlblocks.components.pipelines.tabular.random_forest import RandomForestRegressor
+from mlpipelines.tabular.random_forest import RandomForestRegressor
 
 
 def run(train_size=405, test_size=101):
@@ -27,10 +27,10 @@ def run(train_size=405, test_size=101):
     for hyperparam in rf_regressor.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {'rf_regressor'}
-    steps = set(rf_regressor.steps_dict.keys())
-    assert expected_steps == steps
+    # Check that the blocks are correct.
+    expected_blocks = {'rf_regressor'}
+    blocks = set(rf_regressor.blocks.keys())
+    assert expected_blocks == blocks
 
     # Check that we can score properly.
     print("\nFitting pipeline...")

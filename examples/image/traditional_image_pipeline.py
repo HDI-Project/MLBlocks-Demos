@@ -7,7 +7,7 @@ from sklearn.datasets import fetch_mldata
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-from mlblocks.components.pipelines.image.traditional_image import TraditionalImagePipeline
+from mlpipelines.image.traditional_image import TraditionalImagePipeline
 
 
 def run(train_size=1000, test_size=300):
@@ -30,10 +30,10 @@ def run(train_size=1000, test_size=300):
     for hyperparam in traditional_image.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {'HOG', 'rf_classifier'}
-    steps = set(traditional_image.steps_dict.keys())
-    assert expected_steps == steps
+    # Check that the blocks are correct.
+    expected_blocks = {'HOG', 'rf_classifier'}
+    blocks = set(traditional_image.blocks.keys())
+    assert expected_blocks == blocks
 
     # Check that we can update our pipeline's tunable hyperparameter
     # values.

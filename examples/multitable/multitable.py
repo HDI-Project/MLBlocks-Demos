@@ -4,8 +4,8 @@ import featuretools as ft
 import pandas as pd
 from sklearn.metrics import f1_score
 
-from mlblocks.ml_pipeline.ml_pipeline import MLPipeline
-from mlblocks.ml_pipeline.ml_hyperparam import MLHyperparam
+from mlblocks.mlhyperparam import MLHyperparam
+from mlblocks.mlpipeline import MLPipeline
 
 def make_entity_set(orders_table, order_products_table):
     entity_set = ft.EntitySet("instacart")
@@ -68,20 +68,20 @@ def run():
 
     entity_set = make_entity_set(orders, order_products)
 
-    multitable = MLPipeline.from_ml_json(['dfs', 'random_forest_classifier'])
+    multitable = MLPipeline(['dfs', 'random_forest_classifier'])
 
     updated_hyperparam = MLHyperparam('max_depth', 'int', [1, 10])
-    updated_hyperparam.step_name = 'dfs'
+    updated_hyperparam.block_name = 'dfs'
     # multitable.update_tunable_hyperparams([updated_hyperparam])
 
     # Check that the hyperparameters are correct.
     for hyperparam in multitable.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {'dfs', 'rf_classifier'}
-    steps = set(multitable.steps_dict.keys())
-    assert expected_steps == steps
+    # Check that the blocks are correct.
+    expected_blocks = {'dfs', 'rf_classifier'}
+    blocks = set(multitable.blocks.keys())
+    assert expected_blocks == blocks
 
     # Check that we can score properly.
     produce_params = {

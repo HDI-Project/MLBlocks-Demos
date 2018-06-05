@@ -6,6 +6,7 @@ import imp
 import importlib
 import json
 import os
+import traceback
 from datetime import datetime
 
 from examples.audio import audio
@@ -120,8 +121,16 @@ if __name__ == '__main__':
         except Exception as e:
             score = None
             exception = e
+            tb = traceback.format_exc()
 
         if args.output:
             store_results(
                 args.output, args.example, kwargs, extra_kwargs,
                 score, exception, start)
+
+        elif exception:
+            print("Exception occurred: {}".format(exception))
+            print(tb)
+
+        else:
+            print("Obtained score: {}".format(score))

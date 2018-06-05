@@ -7,7 +7,7 @@ from sklearn.datasets import fetch_20newsgroups
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-from mlblocks.components.pipelines.text.traditional_text import TraditionalTextPipeline
+from mlpipelines.text.traditional_text import TraditionalTextPipeline
 
 
 def run(train_size=9051, test_size=2263):
@@ -33,13 +33,13 @@ def run(train_size=9051, test_size=2263):
     for hyperparam in traditional_text.get_tunable_hyperparams():
         print(hyperparam)
 
-    # Check that the steps are correct.
-    expected_steps = {
+    # Check that the blocks are correct.
+    expected_blocks = {
         'count_vectorizer', 'to_array', 'tfidf_transformer',
         'multinomial_nb'
     }
-    steps = set(traditional_text.steps_dict.keys())
-    assert expected_steps == steps
+    blocks = set(traditional_text.blocks.keys())
+    assert expected_blocks == blocks
 
     # Check that we can score properly.
     print("\nFitting pipeline...")
